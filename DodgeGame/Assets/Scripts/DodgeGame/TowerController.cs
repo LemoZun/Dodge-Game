@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 
 public class TowerController : MonoBehaviour
@@ -9,8 +7,15 @@ public class TowerController : MonoBehaviour
     [SerializeField] PooledObject bulletPrefab;
     [SerializeField] Transform targetPosition;
     [SerializeField] float bulletSpawnPeriod;
-    
+    [SerializeField] bool isAttacking;
+
     private Coroutine bulletSpawnRoutine;
+
+    private void Awake()
+    {
+        isAttacking = false;
+
+    }
 
     private void Start()
     {
@@ -19,33 +24,59 @@ public class TowerController : MonoBehaviour
     }
 
 
+
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+
+        CheckGameState();
+
+        if (isAttacking == false)
+            return;
+    }
+
+    private void CheckGameState()
+    {
+        GameManager.GameState state;
+        state = Manager.Game.curState;
+
+        if (state == GameManager.GameState.Running)
+            StartAttack();
+        else if (state == GameManager.GameState.Ready || state == GameManager.GameState.GameOver)
+            StopAttack();
+    }
+
+    private void StartAttack()
+    {
+        isAttacking = true;
+        if (bulletSpawnRoutine == null)
         {
-            if(bulletSpawnRoutine == null)
-            {
-                bulletSpawnRoutine = StartCoroutine(BulletSpawn());
-            }
+            bulletSpawnRoutine = StartCoroutine(BulletSpawn());
         }
-        else if(Input.GetKeyDown(KeyCode.G))
+    }
+
+    private void StopAttack()
+    {
+        isAttacking = false;
+        if (bulletSpawnRoutine != null)
         {
-            if(bulletSpawnRoutine != null)
-            {
-                StopCoroutine(bulletSpawnRoutine);
-                bulletSpawnRoutine = null;
-            }
-          
+            StopCoroutine(bulletSpawnRoutine);
+            bulletSpawnRoutine = null;
         }
     }
 
     IEnumerator BulletSpawn()
     {
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(bulletSpawnPeriod);
-        while(true)
+        if (isAttacking == false)
         {
-            
-            yield return delay;            
+            yield return null;
+        }
+
+
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(bulletSpawnPeriod);
+        while (true)
+        {
+
+            yield return delay;
             PooledObject spawnedBullet = bulletPool.GetPool(transform.position, transform.rotation);
 
             if (spawnedBullet != null)
@@ -56,10 +87,6 @@ public class TowerController : MonoBehaviour
             {
                 Debug.Log("ÃÑ¾Ë »ý¼º ¾ÈµÊ");
             }
-
-
-            //Instantiate(bulletPrefab,transform.position,transform.rotation);
-
         }
     }
 }

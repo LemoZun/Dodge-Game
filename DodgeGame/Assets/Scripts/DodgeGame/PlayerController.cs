@@ -17,7 +17,11 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
+        if(Manager.Game.curState == GameManager.GameState.Running)
+        {
+            Move();
+        }
+        
     }
 
     private void Move()

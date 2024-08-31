@@ -31,16 +31,20 @@ public class Bullet : MonoBehaviour
         else if(collision.gameObject.tag == ("Player"))
         {
             pooledObject.ReturnPool();
+            Manager.Game.GameOver();
             Debug.Log("게임 오버!");
         }
-        
     }
 
 
 
     private void Update()
     {
-        transform.Translate(direction*bulletSpeed*Time.deltaTime);
+        //if(Manager.Game.curState == GameManager.GameState.Running)
+        {
+            transform.Translate(direction * bulletSpeed * Time.deltaTime);
+        }
+        
     }
 
     // direction = (GameObject.FindGameObjectWithTag("Player").transform.position).normalized;
