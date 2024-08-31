@@ -14,7 +14,6 @@ public class TowerController : MonoBehaviour
     private void Awake()
     {
         isAttacking = false;
-
     }
 
     private void Start()
@@ -22,8 +21,6 @@ public class TowerController : MonoBehaviour
         //GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         //targetPosition = playerObj.GetComponent<Transform>();
     }
-
-
 
     private void Update()
     {
@@ -90,3 +87,5 @@ public class TowerController : MonoBehaviour
         }
     }
 }
+
+// 가끔 총알이 원을 그리며 날아갈때가 있다.
