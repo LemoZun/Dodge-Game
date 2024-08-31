@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,6 +12,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        
+    }
+
+    private void FixedUpdate()
+    {
         Move();
     }
 
@@ -19,8 +25,21 @@ public class PlayerController : MonoBehaviour
         float xMovement = Input.GetAxis("Horizontal");
         float zMovement = Input.GetAxis("Vertical");
 
-        //RigidBody로 이동 
-        rigid.velocity = new Vector3(xMovement * moveSpeed, 0, zMovement * moveSpeed);
+
+
+
+        //RigidBody로 이동 (정규화 적용) 
+        Vector3 moveDir = new Vector3(xMovement, 0, zMovement);
+        if(moveDir.magnitude > 1) 
+        {
+            moveDir.Normalize();
+        }
+        
+
+        rigid.velocity = moveDir*moveSpeed;
+
+        
+
 
         /* GetKey로 이동 구현
          * 이것보단 입력매니저 사용이 더 좋다(이동으로 할당된 모든 키로 이동 가능하기 때문)
@@ -46,3 +65,13 @@ public class PlayerController : MonoBehaviour
 
 // GetAxis : 아날로그식 범위값 (-1 ~ 1)
 // GetAxisRaw : 디지털식 특정 값 (-1,0,1)
+// 정규화 예시
+// Vector3 moveDir = new Vector3(xMovement, 0, zMovement);
+// moveDir.Normalize();
+
+// rigid.velocity = new Vector3(xMovement * moveSpeed, 0, zMovement * moveSpeed).normalized ; 
+// 이러면 최종결과가 정규화되서 moveSpeed값이 의미가 없어짐
+
+// 리지드 바디
+// AddFore, AddTorque, velocity, angularVelocity
+// magnitude : 벡터의 크기
