@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -19,6 +20,14 @@ public class Bullet : MonoBehaviour
     {
         GameObject target = GameObject.FindGameObjectWithTag("Player");
         direction = (target.transform.position - transform.position).normalized;
+
+        Manager.Game.OnGameEnd += pooledObject.ReturnPool;
+
+    }
+    
+    private void OnDisable()
+    {
+        Manager.Game.OnGameEnd -= pooledObject.ReturnPool;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -26,7 +35,7 @@ public class Bullet : MonoBehaviour
         if(collision.gameObject.layer == LayerMask.NameToLayer("Field"))
         {
             pooledObject.ReturnPool();
-            Debug.Log("필드와 충돌해서 총알 사라짐");
+            //Debug.Log("필드와 충돌해서 총알 사라짐");
         }
         else if(collision.gameObject.tag == ("Player"))
         {

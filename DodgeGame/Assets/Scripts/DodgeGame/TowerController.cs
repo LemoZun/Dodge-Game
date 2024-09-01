@@ -18,8 +18,10 @@ public class TowerController : MonoBehaviour
 
     private void Start()
     {
+
         //GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         //targetPosition = playerObj.GetComponent<Transform>();
+        // 타워는 총알 생성만 하고 총알이 플레이어를 따라가게 하는게 맞는거같아서 삭제
     }
 
     private void Update()
@@ -72,10 +74,10 @@ public class TowerController : MonoBehaviour
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(bulletSpawnPeriod);
         while (true)
         {
-
             yield return delay;
             PooledObject spawnedBullet = bulletPool.GetPool(transform.position, transform.rotation);
 
+            /* 총알 생성 확인용 디버그로그
             if (spawnedBullet != null)
             {
                 Debug.Log("총알 생성");
@@ -84,8 +86,7 @@ public class TowerController : MonoBehaviour
             {
                 Debug.Log("총알 생성 안됨");
             }
+            */
         }
     }
 }
-
-// 가끔 총알이 원을 그리며 날아갈때가 있다.
