@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class ClearzoneTrigger : MonoBehaviour
 {
-
-    public event Action OnGameCleared;
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
@@ -14,7 +12,5 @@ public class ClearzoneTrigger : MonoBehaviour
             Debug.Log("Å¬¸®¾î");
             Manager.Game.GameClear();
         }
-
-        
     }
 }

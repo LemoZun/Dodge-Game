@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         {
             GameStart();
         }
-        else if (curState == GameState.GameOver && Input.GetKeyDown(KeyCode.R))
+        else if ((curState == GameState.GameOver || curState == GameState.GameClear) && Input.GetKeyDown(KeyCode.R))
             GameStart();
     }
 

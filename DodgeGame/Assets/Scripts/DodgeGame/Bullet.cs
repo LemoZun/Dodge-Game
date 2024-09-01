@@ -22,12 +22,14 @@ public class Bullet : MonoBehaviour
         direction = (target.transform.position - transform.position).normalized;
 
         Manager.Game.OnGameEnd += pooledObject.ReturnPool;
+        Manager.Game.OnGameClear += pooledObject.ReturnPool;
 
     }
     
     private void OnDisable()
     {
         Manager.Game.OnGameEnd -= pooledObject.ReturnPool;
+        Manager.Game.OnGameClear -= pooledObject.ReturnPool;
     }
 
     private void OnCollisionEnter(Collision collision)

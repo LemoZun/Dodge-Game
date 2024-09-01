@@ -17,19 +17,12 @@ public class PlayerController : MonoBehaviour
     {
         Manager.Game.OnGameEnd -= StopMove;
     }
-
-    private void Update()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
         if(Manager.Game.curState == GameManager.GameState.Running)
         {
             Move();
         }
-        
     }
 
     private void Move()

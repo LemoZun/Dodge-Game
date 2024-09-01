@@ -40,7 +40,7 @@ public class TowerController : MonoBehaviour
 
         if (state == GameManager.GameState.Running)
             StartAttack();
-        else if (state == GameManager.GameState.Ready || state == GameManager.GameState.GameOver)
+        else if (state == GameManager.GameState.Ready || state == GameManager.GameState.GameOver || state == GameManager.GameState.GameClear)
             StopAttack();
     }
 

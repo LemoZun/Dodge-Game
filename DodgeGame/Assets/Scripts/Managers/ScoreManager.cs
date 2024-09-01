@@ -5,11 +5,12 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance { get; private set; }
+    const float INF = 999f;
     float startTime;
-    float clearTime;
-    float bestClearTime;
-    float criticalPoint = 5f;
-
+    private float clearTime;
+    public float ClearTime { get; private set; }
+    private float bestClearTime;
+    public float BestClearTime { get; private set; }
     Coroutine ScroeRoutine;
 
     private void Awake()
@@ -24,13 +25,14 @@ public class ScoreManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        Instance.bestClearTime = 0;
+        Instance.bestClearTime = INF;
     }
 
     private void Start()
     {
         Manager.Game.OnGameStart += HandleGameStart;
         Manager.Game.OnGameEnd += HandleGameOver;
+        Manager.Game.OnGameClear += HandleGameClear;
     }
 
     private void OnEnable()
@@ -42,6 +44,7 @@ public class ScoreManager : MonoBehaviour
     {
         Manager.Game.OnGameStart -= HandleGameStart;
         Manager.Game.OnGameEnd -= HandleGameOver;
+        Manager.Game.OnGameClear -= HandleGameClear;
     }
 
     public static void Create()
