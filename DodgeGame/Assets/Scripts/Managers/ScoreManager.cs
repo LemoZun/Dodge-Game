@@ -8,12 +8,13 @@ public class ScoreManager : MonoBehaviour
     float startTime;
     float clearTime;
     float bestClearTime;
-    float criticalPoint = 20f;
+    float criticalPoint = 5f;
 
     Coroutine ScroeRoutine;
 
     private void Awake()
     {
+
         if (Instance == null)
         {
             Instance = this;
@@ -23,6 +24,7 @@ public class ScoreManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        Instance.bestClearTime = 0;
     }
 
     private void Start()
@@ -59,9 +61,20 @@ public class ScoreManager : MonoBehaviour
         clearTime = Time.time-startTime;
         int minutes = (int)(clearTime / 60f);
         int seconds = (int)(clearTime % 60f);
+        Debug.Log($"버틴 시간은 {clearTime}");
+        Debug.Log($"{minutes}분 {seconds}초");
+        if(bestClearTime != 0)
+            Debug.Log($"현재 베스트 클리어 시간 : {bestClearTime}");
+    }
+    private void HandleGameClear()
+    {
+        clearTime = Time.time - startTime;
+        int minutes = (int)(clearTime / 60f);
+        int seconds = (int)(clearTime % 60f);
         Debug.Log($"클리어 시간은 {clearTime}");
         Debug.Log($"{minutes}분 {seconds}초");
-        if (clearTime > bestClearTime && clearTime > criticalPoint)
+        Debug.Log($"현재 베스트 클리어 시간 : {bestClearTime}");
+        if (clearTime < bestClearTime)            
             RecordScore();
     }
 

@@ -9,9 +9,10 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance {  get; private set; }
     public event Action OnGameStart;
     public event Action OnGameEnd;
+    public event Action OnGameClear;
 
     
-    public enum GameState { Ready, Running, GameOver}
+    public enum GameState { Ready, Running, GameOver, GameClear}
 
     public GameState curState;
 
@@ -69,6 +70,11 @@ public class GameManager : MonoBehaviour
     {
         curState = GameState.GameOver;
         OnGameEnd?.Invoke();
+    }
+    public void GameClear()
+    {
+        curState = GameState.GameClear;
+        OnGameClear?.Invoke();
     }
 
 

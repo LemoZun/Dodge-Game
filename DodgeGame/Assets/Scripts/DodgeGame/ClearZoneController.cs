@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class ClearZoneController : MonoBehaviour
     [SerializeField] GameObject clearzone;
     [SerializeField] float activationTime;
     Coroutine activeRoutine;
+    
 
     private void Awake()
     {
